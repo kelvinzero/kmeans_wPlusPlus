@@ -10,15 +10,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Driver file to execute kmeans clustering algorithm
+ *
+ * @author Josh Cotes
+ */
 public class DemoCluster {
 
     private static final String DEFAULTFILE = "./synthetic_control_data.txt";
     private static int DEFAULTITERATIONS = 500;
     private static int _K = 6;
 
+    /**
+     * Interprets args and executes kmeans algorithm. Renders JFrame with line graphs
+     * for each cluster, drawing line graphs for each record in the cluster.
+     * Program arguments:
+     * <p>
+     * kmeans.jar                                           - executes using default paramaters
+     * kmeans.jar <filename> <k - clusters>                 - executes using default iterations
+     * kmeans.jar <filename> <k - clusters> <iterations>    - executes using params from args
+     *
+     * @param args - the program arguments
+     */
     public static void main(String[] args) {
 
-        KMeans km = null;
+        KMeans km;
 
         if (args.length == 1) {
             System.out.println("loading data set from file " + args[0]);
@@ -41,22 +57,23 @@ public class DemoCluster {
         System.out.println("assigning k = " + _K + " clusters...");
         ArrayList<Cluster> clusters = km.doKMeans(DEFAULTITERATIONS);
         ArrayList<LineChart> clusterCharts = new ArrayList<>();
-        for (int i = 0; i < clusters.size(); i++) {
+
+        for (int i = 0; i < clusters.size(); i++)
             clusterCharts.add(new LineChart("Cluster Analysis", "Cluster " + (i + 1), clusters.get(i)));
-        }
 
         JFrame frame = new JFrame("Cluster Analysis");
         frame.setLayout(new GridLayout(2, 3));
 
-        for (LineChart chart : clusterCharts) {
+        for (LineChart chart : clusterCharts)
             frame.getContentPane().add(new ChartPanel(chart.getChart()));
-        }
 
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(false);
         frame.pack();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        fileIO.writeClusterFile(km.getRecords(), "rowclusternfo.txt");
+        fileIO.writeRecordInfoFile(km.getRecords(), "resultfile.txt");
         fileIO.writeClusterFiles(clusters);
     }
 }

@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by Josh on 11/19/2016.
+ * KMeans uses KMeans++ to initialize clusters and Lloyd algorithm to cluster
+ * the data.
+ *
+ * @author Josh Cotes
+ * @version Homework 4
  */
 public class KMeans {
     private ArrayList<Cluster> _clusters;
     private ArrayList<Record<Double>> _recordSet;
     private int _nClusters_K;
+    private int _runs = 0;
 
     public KMeans(ArrayList<Record<Double>> records, int nClusters) {
         _recordSet = records;
@@ -25,6 +30,11 @@ public class KMeans {
         _nClusters_K = nClusters;
     }
 
+    /**
+     * Calculate sum of squared errors
+     *
+     * @return - The SSE
+     */
     private double calculateSSE() {
         double sse = 0.0d;
         for (Cluster cluster : _clusters)
@@ -45,7 +55,8 @@ public class KMeans {
         cluster.addRecord(_recordsClone.remove(Math.abs(rand.nextInt() % _recordsClone.size())));
         _clusters.add(cluster);
 
-        for (int i = 1; i < _nClusters_K; i++) {
+        int i = 0;
+        for (; i < _nClusters_K; i++) {
             double sum = 0.0d;
             double[] distances = new double[_recordsClone.size()];
             for (int d = 0; d < _recordsClone.size(); d++) {
@@ -66,9 +77,13 @@ public class KMeans {
         while (_recordsClone.size() > 0) {
             addRecordToClosestCluster(_recordsClone.remove(0));
         }
-        _recordsClone = null;
     }
 
+    /**
+     * Getter for the member variable _recordSet
+     *
+     * @return - the record set
+     */
     public ArrayList<Record<Double>> getRecords() {
         return _recordSet;
     }
@@ -82,6 +97,12 @@ public class KMeans {
         return closest;
     }
 
+    /**
+     * Adds the given record to the cluster with the closest centroid, removing
+     * the record from its cluster of origin.
+     *
+     * @param record - the object record
+     */
     private void addRecordToClosestCluster(Record<Double> record) {
 
         Cluster closestCluster = _clusters.get(0);
@@ -97,6 +118,12 @@ public class KMeans {
         closestCluster.addRecord(record);
     }
 
+    /**
+     * Removes the Record[recordNumber] from the cluster and assigns it to
+     * the cluster with the closest centroid.
+     * @param cluster - cluster currently holding the record
+     * @param recordNumber - record number
+     */
     private void addRecordToClosestCluster(Cluster cluster, int recordNumber) {
 
         Cluster closestCluster = cluster;
@@ -110,14 +137,21 @@ public class KMeans {
                 closestClusterIndex = i;
             }
         }
+        // only move the record if it is assigned to a new cluster
         if (!closestCluster.equals(cluster)) {
             cluster.getRecords().get(recordNumber).setClusterIndex(closestClusterIndex);
             closestCluster.addRecord(cluster.getRecords().remove(recordNumber));
         }
     }
 
+    /**
+     * Executes the Lloyd kmeans algorith.
+     * @param maxIterations - maximum iterations (convergence breaks)
+     * @return - the final clusters
+     */
     public ArrayList<Cluster> doKMeans(int maxIterations) {
 
+        _runs++;
         int i = 0;
         double lastSSE = 0.0;
         System.out.println("Assigning random clusters...");
@@ -135,11 +169,15 @@ public class KMeans {
         }
         System.out.println("KMeans complete, total iterations: " + i);
 
+        // check for local optimum and adjust accordingly
         for (Cluster cluster : _clusters) {
             if (cluster.getRecords().size() < _recordSet.size() * .015) {
                 System.out.println("\nLocal optimum cluster, re-running kmeans...\n");
-                doKMeans(maxIterations);
-                break;
+                if (_runs <= 10) {
+                    doKMeans(maxIterations);
+                    break;
+                } else
+                    System.out.println("\nMaximum runs reached\n");
             }
         }
         return _clusters;

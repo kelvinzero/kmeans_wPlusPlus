@@ -9,10 +9,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Josh on 11/20/2016.
+ * File IO utility to handle loading records and writing cluster info
+ *
+ * @author Josh Cotes
  */
 public class fileIO {
 
+    /**
+     * Loads a data set from a given file name, expected regex delmeter is "  *"
+     *
+     * @param fileName - the file name
+     * @return - an ArrayList of Record<Double> type
+     */
     public static ArrayList<Record<Double>> loadDataSet(String fileName) {
 
         ArrayList<Record<Double>> recordSet = new ArrayList<>();
@@ -43,7 +51,14 @@ public class fileIO {
         }
     }
 
-    public static void writeClusterFile(ArrayList<Record<Double>> records, String filename) {
+    /**
+     * Writes a file containing info about each record and the cluster containing it
+     * in the format <record#, cluster#>
+     *
+     * @param records  - the ArrayList of records
+     * @param filename - the filename to load
+     */
+    public static void writeRecordInfoFile(ArrayList<Record<Double>> records, String filename) {
         try {
 
             File file = new File(filename);
@@ -58,18 +73,24 @@ public class fileIO {
         }
     }
 
+    /**
+     * Writes an individual file for each cluster, each file containing all records in
+     * that cluster.
+     *
+     * @param clusters - the ArrayList of clusters
+     */
     public static void writeClusterFiles(ArrayList<Cluster> clusters) {
 
         try {
             for (int i = 0; i < clusters.size(); i++) {
-                File file = new File("./cluster" + i + "out.txt");
+                File file = new File("./cluster" + (i + 1) + "out.txt");
                 FileWriter writer = new FileWriter(file.getAbsoluteFile());
                 BufferedWriter fout = new BufferedWriter(writer);
                 ArrayList<Record<Double>> records = clusters.get(i).getRecords();
 
-                for (int r = 0; r < records.size(); r++) {
-                    for (int c = 0; c < records.get(r).size(); c++) {
-                        fout.write(records.get(r).getValue(c).toString() + " ");
+                for (Record<Double> record : records) {
+                    for (int c = 0; c < record.size(); c++) {
+                        fout.write(record.getValue(c).toString() + " ");
                     }
                     fout.write("\n");
                 }
@@ -79,5 +100,4 @@ public class fileIO {
             ex$.printStackTrace();
         }
     }
-
 }
