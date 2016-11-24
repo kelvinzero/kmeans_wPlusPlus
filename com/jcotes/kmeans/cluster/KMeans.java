@@ -14,7 +14,6 @@ public class KMeans {
     private ArrayList<Cluster> _clusters;
     private ArrayList<Record<Double>> _recordSet;
     private int _nClusters_K;
-    private int _nRuns = 0;
 
     public KMeans(ArrayList<Record<Double>> records, int nClusters) {
         _recordSet = records;
@@ -119,7 +118,6 @@ public class KMeans {
 
     public ArrayList<Cluster> doKMeans(int maxIterations) {
 
-        _nRuns++;
         int i = 0;
         double lastSSE = 0.0;
         System.out.println("Assigning random clusters...");
@@ -138,8 +136,8 @@ public class KMeans {
         System.out.println("KMeans complete, total iterations: " + i);
 
         for (Cluster cluster : _clusters) {
-            if (cluster.getRecords().size() < _recordSet.size() * .025) {
-                System.out.println("\nLocal optimum found, re-running kmeans...\n");
+            if (cluster.getRecords().size() < _recordSet.size() * .015) {
+                System.out.println("\nLocal optimum cluster, re-running kmeans...\n");
                 doKMeans(maxIterations);
                 break;
             }

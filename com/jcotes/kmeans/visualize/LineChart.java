@@ -34,12 +34,9 @@ public class LineChart extends JFrame {
 
 
         // Adding chart into a chart panel
-        // ChartPanel chartPanel = new ChartPanel(linechart);
-        // settind default size
-        // chartPanel.setPreferredSize(new java.awt.Dimension(800, 400));
         XYPlot plot = (XYPlot) _lineChart.getPlot();
         for (int i = 0; i < plot.getSeriesCount(); i++) {
-            plot.getRenderer().setSeriesPaint(i, new Color(80, 40, 255));
+            plot.getRenderer().setSeriesPaint(i, new Color(80, 50, 255));
         }
 
         plot.getDomainAxis().setAutoRange(true);
