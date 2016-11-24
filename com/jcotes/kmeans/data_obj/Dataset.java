@@ -1,4 +1,4 @@
-package com.jcotes.data_obj;
+package com.jcotes.kmeans.data_obj;
 
 import java.util.ArrayList;
 

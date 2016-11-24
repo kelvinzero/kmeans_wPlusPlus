@@ -1,7 +1,7 @@
-package com.jcotes.file_tools;
+package com.jcotes.kmeans.file_tools;
 
-import com.jcotes.data_obj.Cluster;
-import com.jcotes.data_obj.Record;
+import com.jcotes.kmeans.data_obj.Cluster;
+import com.jcotes.kmeans.data_obj.Record;
 
 import java.io.*;
 import java.nio.charset.Charset;

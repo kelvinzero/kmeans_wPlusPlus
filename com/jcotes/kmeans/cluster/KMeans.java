@@ -1,8 +1,8 @@
-package com.jcotes.cluster;
+package com.jcotes.kmeans.cluster;
 
-import com.jcotes.data_obj.Cluster;
-import com.jcotes.data_obj.Record;
-import com.jcotes.file_tools.fileIO;
+import com.jcotes.kmeans.data_obj.Cluster;
+import com.jcotes.kmeans.data_obj.Record;
+import com.jcotes.kmeans.file_tools.fileIO;
 
 import java.util.ArrayList;
 import java.util.Random;

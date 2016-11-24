@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.jcotes.DemoCluster
+Main-Class: com.jcotes.kmeans.DemoCluster
 

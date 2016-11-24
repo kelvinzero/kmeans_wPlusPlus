@@ -1,9 +1,9 @@
-package com.jcotes;
+package com.jcotes.kmeans;
 
-import com.jcotes.cluster.KMeans;
-import com.jcotes.data_obj.Cluster;
-import com.jcotes.file_tools.fileIO;
-import com.jcotes.visualize.LineChart;
+import com.jcotes.kmeans.cluster.KMeans;
+import com.jcotes.kmeans.data_obj.Cluster;
+import com.jcotes.kmeans.file_tools.fileIO;
+import com.jcotes.kmeans.visualize.LineChart;
 import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;

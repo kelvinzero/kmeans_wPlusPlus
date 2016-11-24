@@ -1,8 +1,8 @@
-package com.jcotes.visualize;
+package com.jcotes.kmeans.visualize;
 
 
-import com.jcotes.data_obj.Cluster;
-import com.jcotes.data_obj.Record;
+import com.jcotes.kmeans.data_obj.Cluster;
+import com.jcotes.kmeans.data_obj.Record;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
