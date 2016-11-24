@@ -1,5 +1,6 @@
 package com.jcotes.file_tools;
 
+import com.jcotes.data_obj.Cluster;
 import com.jcotes.data_obj.Record;
 
 import java.io.*;
@@ -42,14 +43,14 @@ public class fileIO {
         }
     }
 
-    public static void writeClusterFile(ArrayList<Record<Double>> records) {
+    public static void writeClusterFile(ArrayList<Record<Double>> records, String filename) {
         try {
 
-            File file = new File("./recordclusterinfo.txt");
+            File file = new File(filename);
             FileWriter writer = new FileWriter(file.getAbsoluteFile());
             BufferedWriter fout = new BufferedWriter(writer);
             for (int r = 0; r < records.size(); r++) {
-                fout.write("<" + r + 1 + ", " + (records.get(r).getClusterIndex() + 1) + ">\n");
+                fout.write("<" + (r + 1) + ", " + (records.get(r).getClusterIndex() + 1) + ">\n");
             }
             fout.close();
         } catch (Exception ex$) {
@@ -57,23 +58,26 @@ public class fileIO {
         }
     }
 
-    public static void writeClusterFiles(int k, ArrayList<Record<Double>> records) {
-/*
-        try {
+    public static void writeClusterFiles(ArrayList<Cluster> clusters) {
 
+        try {
+            for (int i = 0; i < clusters.size(); i++) {
                 File file = new File("./cluster" + i + "out.txt");
                 FileWriter writer = new FileWriter(file.getAbsoluteFile());
                 BufferedWriter fout = new BufferedWriter(writer);
-                for(int r = 0; r < records.size(); r++) {
-                    fout.write("<" + r + ", " + records.get(r).getClusterIndex() + ">");
+                ArrayList<Record<Double>> records = clusters.get(i).getRecords();
+
+                for (int r = 0; r < records.size(); r++) {
+                    for (int c = 0; c < records.get(r).size(); c++) {
+                        fout.write(records.get(r).getValue(c).toString() + " ");
+                    }
+                    fout.write("\n");
                 }
                 fout.close();
             }
-        }
-        catch (Exception ex$){
+        } catch (Exception ex$) {
             ex$.printStackTrace();
         }
-    */
     }
 
 }
