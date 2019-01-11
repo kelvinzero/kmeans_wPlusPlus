@@ -17,9 +17,10 @@ import java.util.ArrayList;
  */
 public class DemoCluster {
 
-    private static final String DEFAULTFILE = "./synthetic_control_data.txt";
+    private static String DEFAULTFILE = "./synthetic_control_data.txt";
     private static int DEFAULTITERATIONS = 500;
     private static int _K = 6;
+
 
     /**
      * Interprets args and executes kmeans algorithm. Renders JFrame with line graphs
