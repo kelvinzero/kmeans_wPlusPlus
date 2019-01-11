@@ -17,9 +17,9 @@ import java.util.ArrayList;
  */
 public class DemoCluster {
 
-    private static String DEFAULTFILE = "./synthetic_control_data.txt";
-    private static int DEFAULTITERATIONS = 500;
-    private static int _K = 6;
+    private static final String DEFAULTFILE = "./synthetic_control_data.txt";
+    private static int defaultIterations = 500;
+    private static int kCount = 6;
 
 
     /**
@@ -43,20 +43,20 @@ public class DemoCluster {
         } else if (args.length == 2) {
             System.out.println("loading data set from file " + args[0]);
             km = new KMeans(args[0], Integer.parseInt(args[1]));
-            _K = Integer.parseInt(args[1]);
+            kCount = Integer.parseInt(args[1]);
         } else if (args.length == 3) {
             System.out.println("loading data set from file " + args[0]);
             km = new KMeans(args[0], Integer.parseInt(args[1]));
-            _K = Integer.parseInt(args[1]);
-            DEFAULTITERATIONS = Integer.parseInt(args[2]);
+            kCount = Integer.parseInt(args[1]);
+            defaultIterations = Integer.parseInt(args[2]);
         } else {
             System.out.println("too many or no args, default run");
             System.out.println("loading data set from file " + DEFAULTFILE);
-            km = new KMeans(DEFAULTFILE, _K);
+            km = new KMeans(DEFAULTFILE, kCount);
         }
 
-        System.out.println("assigning k = " + _K + " clusters...");
-        ArrayList<Cluster> clusters = km.doKMeans(DEFAULTITERATIONS);
+        System.out.println("assigning k = " + kCount + " clusters...");
+        ArrayList<Cluster> clusters = km.doKMeans(defaultIterations);
         ArrayList<LineChart> clusterCharts = new ArrayList<>();
 
         for (int i = 0; i < clusters.size(); i++)
